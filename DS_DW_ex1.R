@@ -1,5 +1,4 @@
 library(tidyverse)
-library(dplyr)
 
 raw_data <- read_csv("C:/Users/tishas/Desktop/personal/Springboard/exercises/refine_original.csv")
 raw_data %>% glimpse
