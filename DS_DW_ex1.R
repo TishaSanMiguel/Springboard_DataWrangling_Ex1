@@ -4,6 +4,7 @@ raw_data <- read_csv("C:/Users/tishas/Desktop/personal/Springboard/exercises/ref
 raw_data %>% glimpse
 
 #rename companies
+company <-raw_data$company
 gsub(pattern =  "[p|P|f].*", replacement = "philips", x = company)
 gsub(pattern =  "[a|A].*", replacement = "azko", x = company)
 gsub(pattern =  "[v|V].*", replacement = "van houten", x = company)
