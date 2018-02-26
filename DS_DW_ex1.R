@@ -4,25 +4,28 @@ raw_data <- read_csv("C:/Users/tishas/Desktop/personal/Springboard/exercises/ref
 raw_data %>% glimpse
 
 #rename companies
-company <-raw_data$company
-gsub(pattern =  "[p|P|f].*", replacement = "philips", x = company)
-gsub(pattern =  "[a|A].*", replacement = "azko", x = company)
-gsub(pattern =  "[v|V].*", replacement = "van houten", x = company)
+raw_data <- raw_data$company
+gsub(pattern =  "[p|P|f].*", replacement = "philips", x = company) 
+gsub(pattern =  "[a|A].*", replacement = "azko", x = company) 
+gsub(pattern =  "[v|V].*", replacement = "van houten", x = company)   
 gsub(pattern =  "[u|U].*", replacement = "unilever", x = company)
 
-#separate product code and product number
-separate(raw_data, "Product code / number", c("product code", "number"), sep = "-") 
+#Separate product code and number
+raw_data %>% separate("Product code / number", c("product_code", "number"), sep = "-")
 
-#create a product category
-product_code <- c("p", "v", "x", "q")
-product <- c("Smartphone", "TV", "Laptop", "Tablet")
-mutate(raw_data, product_category = replace(product_code, product))
+#Add product categories
+raw_data %>% mutate(product_category = case_when(
+  product_code == "p" ~ "Smartphone",
+  product_code == "v" ~ "TV",
+  product_code == "x" ~ "Laptop",
+  product_code == "q" ~ "Tablet"
+))
+
+#Add full address for geocoding
+raw_data %>% unite("full_address", address, city, country, sep = ",")
 
 
-#add full ddress for geocoding
-unite(raw_data, "full_address", address, city, country, sep = ",")
-
-#creat dummy variable for company and product code
+#Creat dummy variable for company and product code
 company_philips = ifelse(raw_data$company == "philips", 1, 0)%>% 
 company_akzo = ifelse(raw_data$company == "akzo", 1, 0) %>% 
 company_van_houten = ifelse(raw_data$company == "van houten", 1, 0)%>% 
